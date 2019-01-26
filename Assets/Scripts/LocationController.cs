@@ -12,7 +12,7 @@ public class LocationController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -26,7 +26,8 @@ public class LocationController : MonoBehaviour
 
         BoxCollider2D thisCollider = this.GetComponent<BoxCollider2D>();
         BoxCollider2D furnitureCollider = furnitureToCheck.GetComponent<BoxCollider2D>();
-
+        Debug.Log(thisCollider.bounds);
+        Debug.Log(furnitureCollider.bounds);
         if (thisCollider.bounds.Intersects(furnitureCollider.bounds))
         {
             Debug.Log("Furniture " + furnitureToCheck.thisFurnitureType + " with style " + furnitureToCheck.thisStyleType + " overlapping " + thisLocation);
