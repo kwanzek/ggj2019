@@ -9,38 +9,38 @@ public class GameController : MonoBehaviour
     public LocationController[] allLocations;
     public FurnitureController[] allFurniture;
 
-    public float testTimer = 0f;
-    public float testThreshold = 5f;
-
     public int maxGoalItems;
     public int minGoalItems;
     public int maxPerItemType;
     private Dictionary<FurnitureController.FurnitureTypeEnum, int> globalItemGoals;
 
+    public GameObject truck;
+    public GameObject truckSpawn;
+    public GameObject truckStop;
+    public GameObject outsideHouse;
+
     // Start is called before the first frame update
     void Start()
     {
-        testTimer = 0f;
         allLocations = GameObject.FindObjectsOfType<LocationController>();
         allFurniture = GameObject.FindObjectsOfType<FurnitureController>();
         setupGlobalGoals();
+        spawnTruck();
     }
 
     // Update is called once per frame
     void Update()
     {
         checkAllFurnitureLocationOverlap();
-        testTimer += Time.deltaTime;
-        if(testTimer > testThreshold)
-        {
-            testTimer = 0f;
-        }
     }
 
     // For each furniture, check if it overlapping a specific location.
     public void checkAllFurnitureLocationOverlap()
     {
-        foreach (FurnitureController currFurniture in allFurniture) {
+        GameObject[] furnitureObjects = GameObject.FindGameObjectsWithTag("Furniture");
+
+        foreach (GameObject furniture in furnitureObjects) {
+            FurnitureController currFurniture = furniture.GetComponent<FurnitureController>();
             foreach (LocationController currLocation in allLocations)
             {
                 if (currLocation.hasFurniture(currFurniture))
@@ -93,5 +93,14 @@ public class GameController : MonoBehaviour
                 Debug.Log("Key: " + type + "value: 0");
             }
         }
+    }
+
+    void spawnTruck()
+    {
+        GameObject truckInstance = Object.Instantiate(truck, truckSpawn.transform.position, Quaternion.identity);
+        TruckController truckController = truckInstance.GetComponent<TruckController>();
+        truckController.setTargetStop(truckStop);
+        truckController.setOutsideHouse(outsideHouse);
+        truckController.startMoving();
     }
 }
