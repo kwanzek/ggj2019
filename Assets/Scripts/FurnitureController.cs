@@ -19,6 +19,8 @@ public class FurnitureController : MonoBehaviour
     public StyleEnum thisStyleType;
     public bool[] locationBoolArray = new bool[System.Enum.GetValues(typeof(LocationEnum)).Length];
 
+    public int pointValue;
+
     // Start is called before the first frame update
     void Start()
     {
