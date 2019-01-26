@@ -44,11 +44,6 @@ public class GameController : MonoBehaviour
     {
         checkAllFurnitureLocationOverlap();
         updatePlayerLocationGoalScores();
-        testTimer += Time.deltaTime;
-        if(testTimer > testThreshold)
-        {
-            testTimer = 0f;
-        }
     }
 
     // For each furniture, check if it overlapping a specific location.
