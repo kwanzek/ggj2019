@@ -46,8 +46,6 @@ public class PlayerController : MonoBehaviour
 
         // If "pickup" is pressed, check facing direction
         // TODO: Change names of input buttons, for now Jump because jump == space
-        Debug.Log(isCarrying);
-        Debug.Log(m_carryObject);
         if (Input.GetButtonDown("Jump"))
         {
 
@@ -62,6 +60,11 @@ public class PlayerController : MonoBehaviour
             {
                 dropFurniture();
             }
+        } else if (Input.GetButtonDown("Fire1") && isCarrying) //TODO: Change buttons etc. right now it's left-ctrl
+        {
+            GameObject furniture = m_carryObject;
+            dropFurniture();
+            throwFurniture(furniture, getForceVector());
         }
     }
 
@@ -88,17 +91,23 @@ public class PlayerController : MonoBehaviour
         isCarrying = false;
     }
 
+    void throwFurniture(GameObject furniture, Vector3 forceVector)
+    {
+        FurnitureController controller = furniture.GetComponent("FurnitureController") as FurnitureController;
+        controller.throwObject(forceVector, this.gameObject);
+        Debug.Log("throwing furniture");
+    }
+
     GameObject getFacingFurniture(Vector3 pickupOffset)
     {
         GameObject[] furnitureObjects = GameObject.FindGameObjectsWithTag("Furniture");
         foreach (GameObject furniture in furnitureObjects)
         {
             Transform furnitureTransform = furniture.GetComponent<Transform>() as Transform;
-            Vector3Int furniturePos = Vector3Int.FloorToInt(furnitureTransform.localPosition);
+            Vector3 furniturePos = furnitureTransform.localPosition;
 
             if(Mathf.Abs(furniturePos.x - pickupOffset.x) <= 1 && Mathf.Abs(furniturePos.y - pickupOffset.y) <= 1)
             {
-                Debug.Log("MATCH!");
                 return furniture;
             }
         }
@@ -124,6 +133,28 @@ public class PlayerController : MonoBehaviour
             localPosition.x = localPosition.x + 1;
         }
         return localPosition;
+    }
+
+    Vector3 getForceVector()
+    {
+        Vector3 forceVector = new Vector3(0, 0, 0);
+        if (currentFacing == Facing.UP)
+        {
+            forceVector.y =  1;
+        }
+        else if (currentFacing == Facing.DOWN)
+        {
+            forceVector.y = - 1;
+        }
+        else if (currentFacing == Facing.LEFT)
+        {
+            forceVector.x = - 1;
+        }
+        else
+        {
+            forceVector.x = 1;
+        }
+        return forceVector;
     }
 
 
