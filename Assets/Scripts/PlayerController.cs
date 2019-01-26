@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
         foreach (GameObject furniture in furnitureObjects)
         {
             Transform furnitureTransform = furniture.GetComponent<Transform>() as Transform;
-            Vector3Int furniturePos = Vector3Int.FloorToInt(furnitureTransform.localPosition);
+            Vector3 furniturePos = furnitureTransform.localPosition;
 
             if(Mathf.Abs(furniturePos.x - pickupOffset.x) <= 1 && Mathf.Abs(furniturePos.y - pickupOffset.y) <= 1)
             {

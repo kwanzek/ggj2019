@@ -26,9 +26,8 @@ public class LocationController : MonoBehaviour
 
         BoxCollider2D thisCollider = this.GetComponent<BoxCollider2D>();
         BoxCollider2D furnitureCollider = furnitureToCheck.GetComponent<BoxCollider2D>();
-        Debug.Log(thisCollider.bounds);
-        Debug.Log(furnitureCollider.bounds);
-        if (thisCollider.bounds.Intersects(furnitureCollider.bounds))
+
+        if (thisCollider.IsTouching(furnitureCollider))
         {
             Debug.Log("Furniture " + furnitureToCheck.thisFurnitureType + " with style " + furnitureToCheck.thisStyleType + " overlapping " + thisLocation);
             return true;
