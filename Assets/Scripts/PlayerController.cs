@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
         {
 
             if (! isCarrying ) {
-                Vector3Int pickupOffset = getPickupOffset(transform.localPosition);
+                Vector3 pickupOffset = getPickupOffset(transform.localPosition);
                 GameObject toPickupFurniture = getFacingFurniture(pickupOffset);
                 if (toPickupFurniture != null)
                 {
@@ -88,18 +88,15 @@ public class PlayerController : MonoBehaviour
         isCarrying = false;
     }
 
-    GameObject getFacingFurniture(Vector3Int pickupOffset)
+    GameObject getFacingFurniture(Vector3 pickupOffset)
     {
         GameObject[] furnitureObjects = GameObject.FindGameObjectsWithTag("Furniture");
         foreach (GameObject furniture in furnitureObjects)
         {
             Transform furnitureTransform = furniture.GetComponent<Transform>() as Transform;
             Vector3Int furniturePos = Vector3Int.FloorToInt(furnitureTransform.localPosition);
-            //Debug.Log("Player vecto3: " + pickupOffset);
-            //Debug.Log("Transform local: " + transform.localPosition);
-            //Debug.Log("Transform psoition: " + transform.position);
-            //Debug.Log("Furniture Pos: " + furniturePos);
-            if (pickupOffset.x == furniturePos.x && pickupOffset.y == furniturePos.y)
+
+            if(Mathf.Abs(furniturePos.x - pickupOffset.x) <= 1 && Mathf.Abs(furniturePos.y - pickupOffset.y) <= 1)
             {
                 Debug.Log("MATCH!");
                 return furniture;
@@ -108,7 +105,7 @@ public class PlayerController : MonoBehaviour
         return null;
     }
 
-    Vector3Int getPickupOffset(Vector3 localPosition)
+    Vector3 getPickupOffset(Vector3 localPosition)
     {
         if (currentFacing == Facing.UP)
         {
@@ -126,7 +123,7 @@ public class PlayerController : MonoBehaviour
         {
             localPosition.x = localPosition.x + 1;
         }
-        return Vector3Int.FloorToInt(localPosition);
+        return localPosition;
     }
 
 
