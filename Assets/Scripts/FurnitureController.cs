@@ -4,22 +4,29 @@ using UnityEngine;
 
 public class FurnitureController : MonoBehaviour
 {
-    // Start is called before the first frame update
+
     public Vector3 velocity;
     public float friction;
     public float maxSpeed;
     public float currentSpeed;
     private GameObject playerThrowing;
 
+    public enum FurnitureTypeEnum { Refrigerator, DiningTable, Sofa, TV, Bed, Desk, Dresser, Bathtub }
+
+    public enum StyleEnum { Cute, Goth, IDK1, IDK2 }
+
+    public FurnitureTypeEnum thisFurnitureType;
+    public StyleEnum thisStyleType;
+    public bool[] locationBoolArray = new bool[System.Enum.GetValues(typeof(LocationEnum)).Length];
+
+    // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
     }
 
     void FixedUpdate()
@@ -51,5 +58,18 @@ public class FurnitureController : MonoBehaviour
                 playerThrowing = null;
             }
         }
+    }
+
+    // Returns true if the furniture is overlapping with any square.
+    public bool isInHouse()
+    {
+        foreach (bool curr_bool in locationBoolArray)
+        {
+            if (curr_bool)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
