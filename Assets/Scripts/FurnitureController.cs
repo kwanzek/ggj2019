@@ -74,4 +74,9 @@ public class FurnitureController : MonoBehaviour
         }
         return false;
     }
+
+    public bool isInLocation(LocationEnum locationToCheck)
+    {
+        return locationBoolArray[(int)locationToCheck];
+    }
 }
