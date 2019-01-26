@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Furniture
   - Tilemap
+  - Truck
+  - TruckStop
+  - TruckSpawn
   layers:
   - Default
   - TransparentFX
