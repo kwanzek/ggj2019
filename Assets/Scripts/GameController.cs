@@ -118,8 +118,10 @@ public class GameController : MonoBehaviour
 
     public void updatePlayerLocationGoalScores()
     {
-        foreach (FurnitureController currFurniture in allFurniture)
+        GameObject[] furnitureObjects = GameObject.FindGameObjectsWithTag("Furniture");
+        foreach (GameObject furniture in furnitureObjects)
         {
+            FurnitureController currFurniture = furniture.GetComponent<FurnitureController>();
             foreach (PlayerController currPlayer in playerList)
             {
                 currPlayer.locationGoalScore = 0;

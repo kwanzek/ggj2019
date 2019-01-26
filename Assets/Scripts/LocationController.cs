@@ -29,10 +29,10 @@ public class LocationController : MonoBehaviour
 
         if (thisCollider.IsTouching(furnitureCollider))
         {
-            Debug.Log("Furniture " + furnitureToCheck.thisFurnitureType + " with style " + furnitureToCheck.thisStyleType + " overlapping " + thisLocation);
+            //Debug.Log("Furniture " + furnitureToCheck.thisFurnitureType + " with style " + furnitureToCheck.thisStyleType + " overlapping " + thisLocation);
             return true;
         }
-        Debug.Log("Furniture " + furnitureToCheck.thisFurnitureType + " with style " + furnitureToCheck.thisStyleType + " NOT overlapping " + thisLocation);
+        //Debug.Log("Furniture " + furnitureToCheck.thisFurnitureType + " with style " + furnitureToCheck.thisStyleType + " NOT overlapping " + thisLocation);
         return false;
 
     }

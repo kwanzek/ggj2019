@@ -60,6 +60,12 @@ public class PlayerController : MonoBehaviour
             currentFacing = Facing.DOWN;
         }
 
+        if (isCarrying)
+        {
+            Vector3 facingOffset = getPickupOffset(transform.localPosition);
+            m_carryObject.transform.position = facingOffset;
+        }
+
         // If "pickup" is pressed, check facing direction
         // TODO: Change names of input buttons, for now Jump because jump == space
         if (Input.GetButtonDown("Jump"))
