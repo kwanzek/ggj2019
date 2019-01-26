@@ -19,19 +19,36 @@ public class GameController : MonoBehaviour
     public GameObject truckStop;
     public GameObject outsideHouse;
 
+    public PlayerController[] playerList;
+
+    private int numPointsPerLocationGoal = 7;
+
     // Start is called before the first frame update
     void Start()
     {
         allLocations = GameObject.FindObjectsOfType<LocationController>();
         allFurniture = GameObject.FindObjectsOfType<FurnitureController>();
         setupGlobalGoals();
+
         spawnTruck();
+
+        playerList = GameObject.FindObjectsOfType<PlayerController>();
+        foreach (PlayerController currPlayer in playerList)
+        {
+            Debug.Log(currPlayer);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         checkAllFurnitureLocationOverlap();
+        updatePlayerLocationGoalScores();
+        testTimer += Time.deltaTime;
+        if(testTimer > testThreshold)
+        {
+            testTimer = 0f;
+        }
     }
 
     // For each furniture, check if it overlapping a specific location.
@@ -102,5 +119,25 @@ public class GameController : MonoBehaviour
         truckController.setTargetStop(truckStop);
         truckController.setOutsideHouse(outsideHouse);
         truckController.startMoving();
+    }
+
+    public void updatePlayerLocationGoalScores()
+    {
+        foreach (FurnitureController currFurniture in allFurniture)
+        {
+            foreach (PlayerController currPlayer in playerList)
+            {
+                currPlayer.locationGoalScore = 0;
+                foreach (LocationGoals currLocationGoal in currPlayer.locationGoalList)
+                {
+                    if (currFurniture.thisFurnitureType == currLocationGoal.furnitureType && currFurniture.isInLocation(currLocationGoal.location))
+                    {
+                        currPlayer.locationGoalScore += numPointsPerLocationGoal;
+                    }
+                    Debug.Log("Player " + currPlayer.ToString() + " has goal " + currLocationGoal);
+                }
+                Debug.Log("Player " + currPlayer.ToString() + " has " + currPlayer.locationGoalScore + " location points.");
+            }
+        }
     }
 }

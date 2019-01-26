@@ -16,12 +16,28 @@ public class PlayerController : MonoBehaviour
     private bool isCarrying;
     private Facing currentFacing;
 
+    public List<LocationGoals> locationGoalList;
+    public int numLocationGoals = 2;
+    public int locationGoalScore = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
         isCarrying = false;
         currentFacing = Facing.DOWN;
+
+        locationGoalList = new List<LocationGoals>();
+        for (int i = 0; i < numLocationGoals; i++)
+        {
+            LocationGoals currGoal = new LocationGoals();
+            while (locationGoalList.Contains(currGoal))
+            {
+                currGoal = new LocationGoals();
+            }
+            locationGoalList.Add(currGoal);
+        }
+
     }
 
     // Update is called once per frame
