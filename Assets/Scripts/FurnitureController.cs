@@ -26,9 +26,22 @@ public class FurnitureController : MonoBehaviour
     private Color coolColor = new Color(250 / 255f, 203 / 255f, 114 / 255f);
     private Color gothColor = new Color(99 / 255f, 57 / 255f, 132 / 255f);
 
+    public Sprite fancySprite;
+    public Sprite cuteSprite;
+    public Sprite coolSprite;
+    public Sprite gothSprite;
+
+    private float originalColliderSizeX;
+    private float originalColliderSizeY;
+
     // Start is called before the first frame update
     void Start()
     {
+        BoxCollider2D collider = this.gameObject.GetComponent<BoxCollider2D>();
+        originalColliderSizeX = collider.size.x;
+        originalColliderSizeY = collider.size.y;
+        Debug.Log("Original X: " + originalColliderSizeX);
+        Debug.Log("original Y: " + originalColliderSizeY);
     }
 
     // Update is called once per frame
@@ -44,6 +57,11 @@ public class FurnitureController : MonoBehaviour
             Vector3 forceVector = velocity.normalized * currentSpeed * Time.fixedDeltaTime;
             transform.Translate(forceVector);
         }
+        else
+        {
+            BoxCollider2D collider = this.gameObject.GetComponent<BoxCollider2D>();
+            collider.size = new Vector3(originalColliderSizeX, originalColliderSizeY, 0);
+        }
     }
 
     public void setupFurniture(FurnitureTypeEnum type, StyleEnum style)
@@ -52,18 +70,30 @@ public class FurnitureController : MonoBehaviour
         thisStyleType = style;
         SpriteRenderer renderer = this.gameObject.GetComponent<SpriteRenderer>();
 
+        GameObject childIcon = null;
+        foreach (Transform child in transform)
+        {
+            childIcon = child.gameObject;
+        }
+
+        SpriteRenderer childRenderer = childIcon.GetComponent<SpriteRenderer>();
+
         if (style == StyleEnum.Cool)
         {
             renderer.color = coolColor;
+            childRenderer.sprite = coolSprite;
         } else if(style == StyleEnum.Cute)
         {
             renderer.color = cuteColor;
+            childRenderer.sprite = cuteSprite;
         } else if(style == StyleEnum.Fancy)
         {
             renderer.color = fancyColor;
+            childRenderer.sprite = fancySprite;
         } else if (style == StyleEnum.Goth)
         {
             renderer.color = gothColor;
+            childRenderer.sprite = gothSprite;
         }
     }
 
@@ -76,10 +106,10 @@ public class FurnitureController : MonoBehaviour
         Debug.Log("Velocity: " + velocity);
         if (velocity.x != 0)
         {
-            collider.size = new Vector3(1, 0.4f, 0);
+            collider.size = new Vector3(originalColliderSizeX, originalColliderSizeY * 0.4f, 0);
         } else if (velocity.y != 0)
         {
-            collider.size = new Vector3(0.4f, 1, 0);
+            collider.size = new Vector3(originalColliderSizeX * 0.4f, originalColliderSizeY, 0);
         }
 
         Debug.Log("Setting collider size: " + collider.size);
@@ -90,13 +120,13 @@ public class FurnitureController : MonoBehaviour
         BoxCollider2D collider = this.gameObject.GetComponent<BoxCollider2D>();
         if (collision.gameObject.tag != "Player") {
             currentSpeed = 0;
-            collider.size = new Vector3(1, 1, 0);
+            collider.size = new Vector3(originalColliderSizeX, originalColliderSizeY, 0);
         } else if (playerThrowing != null)
         {
             if (playerThrowing.GetInstanceID() != collision.gameObject.GetInstanceID())
             {
                 currentSpeed = 0;
-                collider.size = new Vector3(1, 1, 0);
+                collider.size = new Vector3(originalColliderSizeX, originalColliderSizeY, 0);
                 playerThrowing = null;
             }
         }

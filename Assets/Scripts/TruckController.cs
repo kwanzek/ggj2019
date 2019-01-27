@@ -88,11 +88,11 @@ public class TruckController : MonoBehaviour
     private ArrayList setupSpawnLocs(Vector3 basePos)
     {
         ArrayList list = new ArrayList();
-        for (int i = -2; i < 6; i+=2)
+        for (int i = -2; i < 7; i+=3)
         {
             for (int j = -4; j < 4; j+=2)
             {
-                list.Add(new Vector3(basePos.x + i, basePos.y + j, 0));
+                list.Add(new Vector3(basePos.x + i + 0.01f, basePos.y + j + 0.01f, 0));
             }
         }
         return list;
@@ -103,10 +103,8 @@ public class TruckController : MonoBehaviour
         int itemCountToDrop = Random.Range(minSpawnObjects, maxSpawnObjects + 1);
         Transform itemDropBase = dropOffStart.transform;
 
-
         Vector3 itemDropPos = itemDropBase.position;
         ArrayList spawnLocs = setupSpawnLocs(itemDropPos);
-
 
         var enumTypes = System.Enum.GetValues(typeof(FurnitureController.FurnitureTypeEnum));
         var enumStyles = System.Enum.GetValues(typeof(FurnitureController.StyleEnum));
