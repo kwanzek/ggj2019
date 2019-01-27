@@ -72,11 +72,12 @@ public class GameController : MonoBehaviour
         {
             checkAllFurnitureLocationOverlap();
             updatePlayerLocationGoalScores();
+            updatePlayerStyleGoalScores();
+            updateGlobalGoalScores();
             recalcTimer = recalcTimerReset;
         }
         recalcTimer -= Time.deltaTime;
-        updatePlayerStyleGoalScores();
-        updateGlobalGoalScores();
+
     }
 
     // For each furniture, check if it overlapping a specific location.
@@ -156,6 +157,39 @@ public class GameController : MonoBehaviour
             }
         }
 
+        int i = 0;
+        foreach (KeyValuePair<FurnitureController.FurnitureTypeEnum, int> entry in globalItemGoals)
+        {
+            GameObject textObject = new GameObject(entry.Key.ToString());
+            textObject.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform);
+            textObject.transform.localScale = new Vector3(1, 1, 1);
+            textObject.transform.localPosition = new Vector3(300, 125 - (i * 20), 2);
+
+            Text goalLabel = textObject.AddComponent<Text>();
+
+            string furnitureName;
+            if(entry.Key == FurnitureController.FurnitureTypeEnum.Refrigerator)
+            {
+                furnitureName = "Fridge";
+            } else if (entry.Key == FurnitureController.FurnitureTypeEnum.DiningTable) {
+                furnitureName = "Table";
+            }
+            else
+            {
+                furnitureName = entry.Key.ToString();
+            }
+
+            goalLabel.text =furnitureName + ": " + "0 / " + entry.Value;
+
+            Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
+            goalLabel.font = ArialFont;
+            goalLabel.material = ArialFont.material;
+            goalLabel.alignment = TextAnchor.MiddleRight;
+            goalLabel.fontSize = 16;
+
+            i++;
+        }
+
     }
 
     void spawnTruck()
@@ -230,7 +264,25 @@ public class GameController : MonoBehaviour
                     {
                         globalGoalScores.Add(currType, 1);
                     }
-                }
+
+                    GameObject textObject = GameObject.Find("Canvas/" + currType.ToString());
+                    Text goalLabel = textObject.GetComponent<Text>();
+
+                    string furnitureName;
+                    if (currType == FurnitureController.FurnitureTypeEnum.Refrigerator)
+                    {
+                        furnitureName = "Fridge";
+                    }
+                    else if (currType == FurnitureController.FurnitureTypeEnum.DiningTable)
+                    {
+                        furnitureName = "Table";
+                    }
+                    else
+                    {
+                        furnitureName = currType.ToString();
+                    }
+                    goalLabel.text = furnitureName + ": " + globalGoalScores[currType] + " / " + globalItemGoals[currType];
+                 }
             }
         }
     }
