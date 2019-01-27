@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
     public int numLocationGoals = 2;
     public int locationGoalScore = 0;
 
+    public FurnitureController.StyleEnum styleGoal;
+    public int styleGoalScore = 0;
+
     Animator m_Animator;
 
     // Start is called before the first frame update
