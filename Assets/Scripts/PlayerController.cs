@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.Animations;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour
     public List<LocationGoals> locationGoalList;
     public int numLocationGoals = 2;
     public int locationGoalScore = 0;
+
+    Animator m_Animator;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +41,7 @@ public class PlayerController : MonoBehaviour
             locationGoalList.Add(currGoal);
         }
 
+        m_Animator = gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -49,15 +53,19 @@ public class PlayerController : MonoBehaviour
         if (horizontalMove < 0)
         {
             currentFacing = Facing.LEFT;
+            m_Animator.SetTrigger("PlayerWalkingLeft");
         } else if(horizontalMove > 0)
         {
             currentFacing = Facing.RIGHT;
+            m_Animator.SetTrigger("PlayerWalkingRight");
         } else if(verticalMove > 0)
         {
             currentFacing = Facing.UP;
+            m_Animator.SetTrigger("PlayerWalkingUp");
         } else if (verticalMove < 0)
         {
             currentFacing = Facing.DOWN;
+            m_Animator.SetTrigger("PlayerWalkingDown");
         }
 
         if (isCarrying)
