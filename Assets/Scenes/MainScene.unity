@@ -1146,6 +1146,14 @@ MonoBehaviour:
   player2Spawn: {fileID: 492385030}
   player3Spawn: {fileID: 796700341}
   player4Spawn: {fileID: 657073243}
+  cutePlayerPrefab: {fileID: 2612749315135139952, guid: 501bab721bba8b044afe7e4de3f33f45,
+    type: 3}
+  coolPlayerPrefab: {fileID: 5918239651189040011, guid: 041ebf82a92b0854da47b7ffbbaf5af3,
+    type: 3}
+  fancyPlayerPrefab: {fileID: 3847817390720533238, guid: c2a3419e02517b04882dee809da28f13,
+    type: 3}
+  gothPlayerPrefab: {fileID: 4446656411509063083, guid: e5991b31fda5a6e4ca41ec7426e7b1eb,
+    type: 3}
   dropOffStart: {fileID: 757275782}
   playerList: []
 --- !u!4 &1253914408

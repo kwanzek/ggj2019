@@ -28,6 +28,11 @@ public class GameController : MonoBehaviour
     public GameObject player3Spawn;
     public GameObject player4Spawn;
 
+    public GameObject cutePlayerPrefab;
+    public GameObject coolPlayerPrefab;
+    public GameObject fancyPlayerPrefab;
+    public GameObject gothPlayerPrefab;
+
     public GameObject dropOffStart;
 
     public PlayerController[] playerList;
@@ -50,7 +55,9 @@ public class GameController : MonoBehaviour
         for (int i = 1; i < PlayerPrefs.GetInt("NumPlayers") + 1; i++)
         {
             Transform spawnLoc = getSpawnLocForPlayerNum(i);
-            GameObject playerObj = Instantiate(playerPrefab, spawnLoc.position, Quaternion.identity);
+            var pref = PlayerPrefs.GetString("Player" + i + "_Character");
+            GameObject prefab = getPlayerPrefabFromStringName(pref);
+            GameObject playerObj = Instantiate(prefab, spawnLoc.position, Quaternion.identity);
             GameObject playerIconObj = Instantiate(playerIcon, new Vector3((float)-14.07, 7 - 3 * (i - 1), 1), Quaternion.identity);
             PlayerController playerController = playerObj.GetComponent<PlayerController>();
             playerController.setPlayerNumber(i);
@@ -77,6 +84,26 @@ public class GameController : MonoBehaviour
         }
         recalcTimer -= Time.deltaTime;
 
+    }
+
+    private GameObject getPlayerPrefabFromStringName(string name)
+    {
+        if (name.Equals("Cute"))
+        {
+            return cutePlayerPrefab;
+        }
+        else if (name.Equals("Goth"))
+        {
+            return gothPlayerPrefab;
+        }
+        else if (name.Equals("Cool"))
+        {
+            return coolPlayerPrefab;
+        }
+        else
+        {
+            return fancyPlayerPrefab;
+        }
     }
 
     // For each furniture, check if it overlapping a specific location.
