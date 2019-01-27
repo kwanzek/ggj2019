@@ -14,6 +14,15 @@ public class TruckController : MonoBehaviour
     public GameObject outsideHouse;
     public GameObject tempFurniture;
 
+    public GameObject refrigerator;
+    public GameObject diningTable;
+    public GameObject sofa;
+    public GameObject tv;
+    public GameObject bed;
+    public GameObject desk;
+    public GameObject dresser;
+    public GameObject bathtub;
+
     private float dropOffTimer = 5f;
     private float removeTimer = 5f;
 
