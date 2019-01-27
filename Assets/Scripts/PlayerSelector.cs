@@ -22,12 +22,12 @@ public class PlayerSelector : MonoBehaviour
 
     void FixedUpdate()
     {
-        float horizontalMove = Input.GetAxisRaw("Horizontal");
-        float verticalMove = Input.GetAxisRaw("Vertical");
+        float horizontalMove = Input.GetAxisRaw("Player" + playerNumber + "Horizontal");
+        float verticalMove = Input.GetAxisRaw("Player" + playerNumber + "Vertical");
 
         transform.Translate(new Vector3(horizontalMove * speed * Time.fixedDeltaTime, verticalMove * speed * Time.fixedDeltaTime, 0));
 
-        if (Input.GetButtonDown("Player1Pickup")) {
+        if (Input.GetButtonDown("Player" + playerNumber + "Pickup")) {
             GameObject[] playerCards = GameObject.FindGameObjectsWithTag("PlayerCard");
             foreach(GameObject card in playerCards)
             {

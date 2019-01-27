@@ -46,11 +46,6 @@ public class GameController : MonoBehaviour
     {
         checkAllFurnitureLocationOverlap();
         updatePlayerLocationGoalScores();
-        Debug.Log("Player1 hori : " + Input.GetAxisRaw("Horizontal"));
-        Debug.Log("Player 2 hori: " + Input.GetAxisRaw("Player2Horizontal"));
-        Debug.Log("Player1 vert : " + Input.GetAxisRaw("Vertical"));
-        Debug.Log("Player 2 vert: " + Input.GetAxisRaw("Player2Vertical"));
-
     }
 
     // For each furniture, check if it overlapping a specific location.

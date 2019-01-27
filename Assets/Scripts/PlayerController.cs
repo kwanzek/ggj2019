@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     public int numLocationGoals = 2;
     public int locationGoalScore = 0;
 
+    public int playerNumber;
+
     Animator m_Animator;
 
     // Start is called before the first frame update
@@ -53,8 +55,8 @@ public class PlayerController : MonoBehaviour
         m_Animator.ResetTrigger("PlayerWalkingUp");
         m_Animator.ResetTrigger("PlayerWalkingDown");
 
-        horizontalMove = Mathf.Round(Input.GetAxisRaw("Horizontal"));
-        verticalMove = Mathf.Round(Input.GetAxisRaw("Vertical"));
+        horizontalMove = Mathf.Round(Input.GetAxisRaw("Player" + playerNumber + "Horizontal"));
+        verticalMove = Mathf.Round(Input.GetAxisRaw("Player" + playerNumber + "Vertical"));
 
         if (horizontalMove < 0)
         {
@@ -81,7 +83,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // If "pickup" is pressed, check facing direction
-        if (Input.GetButtonDown("Player1Pickup"))
+        if (Input.GetButtonDown("Player" + playerNumber + "Pickup"))
         {
 
             if (! isCarrying ) {
@@ -95,7 +97,7 @@ public class PlayerController : MonoBehaviour
             {
                 dropFurniture();
             }
-        } else if (Input.GetButtonDown("Player1Throw") && isCarrying)
+        } else if (Input.GetButtonDown("Player" + playerNumber + "Throw") && isCarrying)
         {
             GameObject furniture = m_carryObject;
             dropFurniture();
