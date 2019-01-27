@@ -122,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   truckSpeed: 2
   currentSpeed: 0
-  maxSpawnObjects: 15
+  maxSpawnObjects: 12
   minSpawnObjects: 8
   maxSpawnObjectsPerType: 3
   maxSpawnObjectsPerStyle: 5
