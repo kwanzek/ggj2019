@@ -64,25 +64,32 @@ public class PlayerController : MonoBehaviour
             horizontalMove = Mathf.Round(Input.GetAxisRaw("Player" + playerNumber + "Horizontal"));
             verticalMove = Mathf.Round(Input.GetAxisRaw("Player" + playerNumber + "Vertical"));
 
+            SpriteRenderer renderer = this.gameObject.GetComponent<SpriteRenderer>();
+
+
             if (horizontalMove < 0)
             {
                 currentFacing = Facing.LEFT;
-                m_Animator.SetTrigger("PlayerWalkingLeft");
+                m_Animator.SetTrigger("PlayerWalkingRight");
+                renderer.flipX = true;
             }
             else if (horizontalMove > 0)
             {
                 currentFacing = Facing.RIGHT;
                 m_Animator.SetTrigger("PlayerWalkingRight");
+                renderer.flipX = false;
             }
             else if (verticalMove > 0)
             {
                 currentFacing = Facing.UP;
                 m_Animator.SetTrigger("PlayerWalkingUp");
+                renderer.flipY = false;
             }
             else if (verticalMove < 0)
             {
                 currentFacing = Facing.DOWN;
-                m_Animator.SetTrigger("PlayerWalkingDown");
+                m_Animator.SetTrigger("PlayerWalkingUp");
+                renderer.flipY = true ;
             }
 
             if (isCarrying)
