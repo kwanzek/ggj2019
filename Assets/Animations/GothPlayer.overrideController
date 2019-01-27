@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GothPlayer
+  m_Controller: {fileID: 9100000, guid: 8c9a80fa8e4724cb9b0a79f3edbc4f35, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: d6aec90f41e5d41e2b32fe52c4d2db86, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7105f1eeb2c25eb428794a4c4b601108, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0fac41a304a1e458b8cffb6cd97d9d60, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 786ad3887472c6544998cdf137e61db5, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 130459a2dfea14b4e8f59564b8d903d9, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: af5fc7538dcb8064cb61b4e6a15b3899, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 75bc5239e22574f60917ed787642f8e9, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 535318e916592d546bb32d074ce60269, type: 2}

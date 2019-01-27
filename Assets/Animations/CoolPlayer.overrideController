@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CoolPlayer
+  m_Controller: {fileID: 9100000, guid: 8c9a80fa8e4724cb9b0a79f3edbc4f35, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: d6aec90f41e5d41e2b32fe52c4d2db86, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2428527cc6ec9a2469b52afa46a4a8ae, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 75bc5239e22574f60917ed787642f8e9, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 35bc3ab13476b744f91fc8527fb32868, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 130459a2dfea14b4e8f59564b8d903d9, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6da2ad0919b0ae145ad65d9de9bef660, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0fac41a304a1e458b8cffb6cd97d9d60, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3ebc190542a3d33449647baf308281ca, type: 2}
