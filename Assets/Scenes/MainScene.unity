@@ -727,6 +727,8 @@ MonoBehaviour:
   outsideHouse: {fileID: 1810684342}
   playerPrefab: {fileID: 5965234054983170314, guid: c17f3d425a75a2c4e93fa97d9d9993be,
     type: 3}
+  playerIcon: {fileID: 5473009782008232102, guid: 83dc9d5de43f9463d85933c01e86cd29,
+    type: 3}
   playerList: []
 --- !u!4 &1253914408
 Transform:
