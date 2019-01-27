@@ -166,19 +166,8 @@ public class GameController : MonoBehaviour
 
             Text goalLabel = textObject.AddComponent<Text>();
 
-            string furnitureName;
-            if(entry.Key == FurnitureController.FurnitureTypeEnum.Refrigerator)
-            {
-                furnitureName = "Fridge";
-            } else if (entry.Key == FurnitureController.FurnitureTypeEnum.DiningTable) {
-                furnitureName = "Table";
-            }
-            else
-            {
-                furnitureName = entry.Key.ToString();
-            }
-
-            goalLabel.text =furnitureName + ": " + "0 / " + entry.Value;
+            string furnitureName = getFurnitureName(entry.Key);
+            goalLabel.text = furnitureName + ": " + "0 / " + entry.Value;
 
             Font ArialFont = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
             goalLabel.font = ArialFont;
@@ -251,10 +240,16 @@ public class GameController : MonoBehaviour
         foreach (GameObject furniture in furnitureObjects)
         {
             FurnitureController currFurniture = furniture.GetComponent<FurnitureController>();
-            if (currFurniture.isInHouse())
+            FurnitureController.FurnitureTypeEnum currType = currFurniture.thisFurnitureType;
+
+            if (globalItemGoals.ContainsKey(currType))
             {
-                FurnitureController.FurnitureTypeEnum currType = currFurniture.thisFurnitureType;
-                if (globalItemGoals.ContainsKey(currType)) {
+                GameObject textObject = GameObject.Find("Canvas/" + currType.ToString());
+                Text goalLabel = textObject.GetComponent<Text>();
+                string furnitureName = getFurnitureName(currType);
+
+                if (currFurniture.isInHouse())
+                {
                     if (globalGoalScores.ContainsKey(currType))
                     {
                         globalGoalScores[currType]++;
@@ -263,26 +258,28 @@ public class GameController : MonoBehaviour
                     {
                         globalGoalScores.Add(currType, 1);
                     }
-
-                    GameObject textObject = GameObject.Find("Canvas/" + currType.ToString());
-                    Text goalLabel = textObject.GetComponent<Text>();
-
-                    string furnitureName;
-                    if (currType == FurnitureController.FurnitureTypeEnum.Refrigerator)
-                    {
-                        furnitureName = "Fridge";
-                    }
-                    else if (currType == FurnitureController.FurnitureTypeEnum.DiningTable)
-                    {
-                        furnitureName = "Table";
-                    }
-                    else
-                    {
-                        furnitureName = currType.ToString();
-                    }
-                    goalLabel.text = furnitureName + ": " + globalGoalScores[currType] + " / " + globalItemGoals[currType];
-                 }
+                    goalLabel.text = furnitureName + ": " + globalGoalScores[currType] + " / " + globalItemGoals[currType];}
+                else
+                {
+                    goalLabel.text = furnitureName + ": 0 / " + globalItemGoals[currType];
+                }
             }
+        }
+    }
+
+    public string getFurnitureName(FurnitureController.FurnitureTypeEnum type)
+    {
+        if (type == FurnitureController.FurnitureTypeEnum.Refrigerator)
+        {
+            return "Fridge";
+        }
+        else if (type == FurnitureController.FurnitureTypeEnum.DiningTable)
+        {
+            return "Table";
+        }
+        else
+        {
+            return type.ToString();
         }
     }
 
