@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     public GameObject truckStop;
     public GameObject outsideHouse;
     public GameObject playerPrefab;
+    public GameObject playerIcon;
 
     public PlayerController[] playerList;
 
@@ -37,6 +38,7 @@ public class GameController : MonoBehaviour
         for (int i = 1; i < PlayerPrefs.GetInt("NumPlayers") + 1; i++)
         {
             GameObject playerObj = Instantiate(playerPrefab, new Vector3(i * 2, 1, 0), Quaternion.identity);
+            GameObject playerIconObj = Instantiate(playerIcon, new Vector3((float)-13.25, 7 - 3 * (i - 1), 0), Quaternion.identity);
             PlayerController playerController = playerObj.GetComponent<PlayerController>();
             playerController.setPlayerNumber(i);
             playerController.setColor(getPlayerColor(i));
@@ -46,7 +48,6 @@ public class GameController : MonoBehaviour
         {
             Debug.Log(currPlayer);
         }
-
         Debug.Log("Passed through for player 1 : " + PlayerPrefs.GetString("Player1_Character"));
     }
 
@@ -137,7 +138,7 @@ public class GameController : MonoBehaviour
             foreach (GameObject furniture in furnitureObjects)
             {
                 FurnitureController currFurniture = furniture.GetComponent<FurnitureController>();
-                foreach (LocationGoals currLocationGoal in currPlayer.locationGoalList)
+                foreach (LocationGoal currLocationGoal in currPlayer.locationGoalList)
                 {
                     if (currFurniture.thisFurnitureType == currLocationGoal.furnitureType && currFurniture.isInLocation(currLocationGoal.location))
                     {

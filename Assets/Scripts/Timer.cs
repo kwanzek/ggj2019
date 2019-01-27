@@ -23,7 +23,7 @@ public class Timer : MonoBehaviour
 
     IEnumerator LoseTime()
     {
-        while (true)
+        while (timeLeft > 0)
         {
             yield return new WaitForSeconds(1);
             timeLeft--;
