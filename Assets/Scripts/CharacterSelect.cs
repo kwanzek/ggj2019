@@ -18,7 +18,7 @@ public class CharacterSelect : MonoBehaviour
     {
         for (int i = 1; i < 2; i++)
         {
-            bool joinButtonPressed = Input.GetButtonDown("Jump");
+            bool joinButtonPressed = Input.GetButtonDown("Player1Pickup");
             if (joinButtonPressed && !created[i-1])
             {
                 GameObject playerPicker = Instantiate(playerPickerObject, transform);
@@ -29,7 +29,7 @@ public class CharacterSelect : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Player1Throw"))
         {
             int countTrues = 0;
             foreach (bool create in created)

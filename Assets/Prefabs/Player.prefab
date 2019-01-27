@@ -95,6 +95,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 300
+  numLocationGoals: 2
+  locationGoalScore: 0
+  playerNumber: 1
 --- !u!50 &5965234054983170353
 Rigidbody2D:
   serializedVersion: 4
