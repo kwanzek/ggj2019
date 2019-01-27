@@ -26,10 +26,15 @@ public class GameController : MonoBehaviour
     public GameObject player3Spawn;
     public GameObject player4Spawn;
 
+    public GameObject dropOffStart;
+
     public PlayerController[] playerList;
 
     private int numPointsPerLocationGoal = 7;
     private int numPointsPerStyleGoal = 2;
+
+    private float recalcTimer = 3f;
+    private float recalcTimerReset = 3f;
 
     // Start is called before the first frame update
     void Start()
@@ -52,16 +57,22 @@ public class GameController : MonoBehaviour
         playerList = GameObject.FindObjectsOfType<PlayerController>();
         foreach (PlayerController currPlayer in playerList)
         {
-            Debug.Log(currPlayer);
+            //Debug.Log(currPlayer);
         }
-        Debug.Log("Passed through for player 1 : " + PlayerPrefs.GetString("Player1_Character"));
+        //Debug.Log("Passed through for player 1 : " + PlayerPrefs.GetString("Player1_Character"));
     }
 
     // Update is called once per frame
     void Update()
     {
-        checkAllFurnitureLocationOverlap();
-        updatePlayerLocationGoalScores();
+        Debug.Log("Timer: " + recalcTimer);
+        if (recalcTimer < 0f)
+        {
+            checkAllFurnitureLocationOverlap();
+            updatePlayerLocationGoalScores();
+            recalcTimer = recalcTimerReset;
+        }
+        recalcTimer -= Time.deltaTime;
         updatePlayerStyleGoalScores();
     }
 
@@ -149,6 +160,7 @@ public class GameController : MonoBehaviour
         TruckController truckController = truckInstance.GetComponent<TruckController>();
         truckController.setTargetStop(truckStop);
         truckController.setOutsideHouse(outsideHouse);
+        truckController.setUpDropOffSpot(dropOffStart);
         truckController.startMoving();
     }
 
@@ -167,9 +179,9 @@ public class GameController : MonoBehaviour
                     {
                         currPlayer.locationGoalScore += numPointsPerLocationGoal;
                     }
-                    Debug.Log("Player " + currPlayer.ToString() + " has goal " + currLocationGoal);
+                    //Debug.Log("Player " + currPlayer.ToString() + " has goal " + currLocationGoal);
                 }
-                Debug.Log("Player " + currPlayer.ToString() + " has " + currPlayer.locationGoalScore + " location points.");
+                //Debug.Log("Player " + currPlayer.ToString() + " has " + currPlayer.locationGoalScore + " location points.");
 
             }
         }
@@ -188,7 +200,7 @@ public class GameController : MonoBehaviour
                 {
                     currPlayer.styleGoalScore += numPointsPerStyleGoal;
                 }
-                Debug.Log("Player " + currPlayer.ToString() + " has " + currPlayer.styleGoalScore + " style points AND THEIR STYLE IS " + currPlayer.styleGoal + ".");
+               // Debug.Log("Player " + currPlayer.ToString() + " has " + currPlayer.styleGoalScore + " style points AND THEIR STYLE IS " + currPlayer.styleGoal + ".");
 
             }
         }
