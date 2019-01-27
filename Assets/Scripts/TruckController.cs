@@ -58,7 +58,6 @@ public class TruckController : MonoBehaviour
                 currentSpeed = 0;
                 //TODO: Wait for loading animation
                 alreadyStopped = true;
-                destroyFurnitureOutsideHouse();
             }
         }
         if (alreadyStopped && dropOffTimer > 0)
@@ -67,6 +66,7 @@ public class TruckController : MonoBehaviour
         }
         if(dropOffTimer <= 0 && !alreadyDroppedOff)
         {
+            destroyFurnitureOutsideHouse();
             spawnNewFurniture();
             startMoving();
         }

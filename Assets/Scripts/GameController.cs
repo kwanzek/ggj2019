@@ -51,7 +51,7 @@ public class GameController : MonoBehaviour
         {
             Transform spawnLoc = getSpawnLocForPlayerNum(i);
             GameObject playerObj = Instantiate(playerPrefab, spawnLoc.position, Quaternion.identity);
-            GameObject playerIconObj = Instantiate(playerIcon, new Vector3((float)-14.7, 7 - 3 * (i - 1), 1), Quaternion.identity);
+            GameObject playerIconObj = Instantiate(playerIcon, new Vector3((float)-14.07, 7 - 3 * (i - 1), 1), Quaternion.identity);
             PlayerController playerController = playerObj.GetComponent<PlayerController>();
             playerController.setPlayerNumber(i);
             playerController.setColor(getPlayerColor(i));
@@ -162,7 +162,7 @@ public class GameController : MonoBehaviour
             GameObject textObject = new GameObject(entry.Key.ToString());
             textObject.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform);
             textObject.transform.localScale = new Vector3(1, 1, 1);
-            textObject.transform.localPosition = new Vector3(300, 125 - (i * 20), 2);
+            textObject.transform.localPosition = new Vector3(835, 440 - (i * 30), 2);
 
             Text goalLabel = textObject.AddComponent<Text>();
 
@@ -174,6 +174,9 @@ public class GameController : MonoBehaviour
             goalLabel.material = ArialFont.material;
             goalLabel.alignment = TextAnchor.MiddleRight;
             goalLabel.fontSize = 16;
+
+            textObject.layer = 5;
+            goalLabel.gameObject.layer = 5;
 
             i++;
         }
