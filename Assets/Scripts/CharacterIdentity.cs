@@ -9,6 +9,12 @@ public class CharacterIdentity : MonoBehaviour
     public bool available = true;
     public GameObject playerDisplay;
 
+    public void unpickCharacter()
+    {
+        setAvailable(true);
+        disablePlayerDisplay();
+    }
+
     public void setAvailable(bool status)
     {
         available = status;

@@ -16,20 +16,22 @@ public class CharacterSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for (int i = 1; i < 2; i++)
+        for (int i = 1; i < 5; i++)
         {
-            bool joinButtonPressed = Input.GetButtonDown("Jump");
+            bool joinButtonPressed = Input.GetButtonDown("Player" + i + "Pickup");
             if (joinButtonPressed && !created[i-1])
             {
                 GameObject playerPicker = Instantiate(playerPickerObject, transform);
+                SpriteRenderer playerRenderer = playerPicker.GetComponent<SpriteRenderer>();
                 PlayerSelector playerSelector = playerPicker.GetComponent<PlayerSelector>();
                 playerSelector.setPlayerNumber(i);
                 playerSelector.setPlayerColor(getPlayerColor(i));
+                playerRenderer.color = getPlayerColor(i);
                 created[i - 1] = true;
             }
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Player1Throw"))
         {
             int countTrues = 0;
             foreach (bool create in created)
@@ -45,13 +47,14 @@ public class CharacterSelect : MonoBehaviour
             foreach (GameObject card in playerCards)
             {
                 CharacterIdentity charIdentity = card.GetComponent<CharacterIdentity>();
+
                 if (!charIdentity.available)
                 {
                     countSelected++;
                 }
             }
 
-            if (countSelected == countTrues && countSelected > 0)//TODO: make it so at least two players need to select?
+            if (countSelected == countTrues && countSelected > 1)
             {
                 GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
                 foreach(GameObject player in players)
@@ -60,6 +63,7 @@ public class CharacterSelect : MonoBehaviour
                     CharacterIdentity charIdentity = playerSelector.chosenCharacter.GetComponent<CharacterIdentity>();
                     PlayerPrefs.SetString("Player" + playerSelector.playerNumber + "_Character", charIdentity.thisCharacter.ToString());
                 }
+                PlayerPrefs.SetInt("NumPlayers", players.Length);
                 SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
             }
         }

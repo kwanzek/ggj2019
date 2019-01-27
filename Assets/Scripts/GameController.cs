@@ -18,10 +18,12 @@ public class GameController : MonoBehaviour
     public GameObject truckSpawn;
     public GameObject truckStop;
     public GameObject outsideHouse;
+    public GameObject playerPrefab;
 
     public PlayerController[] playerList;
 
     private int numPointsPerLocationGoal = 7;
+    private int numPointsPerStyleGoal = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +34,13 @@ public class GameController : MonoBehaviour
 
         spawnTruck();
 
+        for (int i = 1; i < PlayerPrefs.GetInt("NumPlayers") + 1; i++)
+        {
+            GameObject playerObj = Instantiate(playerPrefab, new Vector3(i * 2, 1, 0), Quaternion.identity);
+            PlayerController playerController = playerObj.GetComponent<PlayerController>();
+            playerController.setPlayerNumber(i);
+            playerController.setColor(getPlayerColor(i));
+        }
         playerList = GameObject.FindObjectsOfType<PlayerController>();
         foreach (PlayerController currPlayer in playerList)
         {
@@ -48,6 +57,7 @@ public class GameController : MonoBehaviour
     {
         checkAllFurnitureLocationOverlap();
         updatePlayerLocationGoalScores();
+        updatePlayerStyleGoalScores();
     }
 
     // For each furniture, check if it overlapping a specific location.
@@ -123,12 +133,12 @@ public class GameController : MonoBehaviour
     public void updatePlayerLocationGoalScores()
     {
         GameObject[] furnitureObjects = GameObject.FindGameObjectsWithTag("Furniture");
-        foreach (GameObject furniture in furnitureObjects)
+        foreach (PlayerController currPlayer in playerList)
         {
-            FurnitureController currFurniture = furniture.GetComponent<FurnitureController>();
-            foreach (PlayerController currPlayer in playerList)
+            currPlayer.locationGoalScore = 0;
+            foreach (GameObject furniture in furnitureObjects)
             {
-                currPlayer.locationGoalScore = 0;
+                FurnitureController currFurniture = furniture.GetComponent<FurnitureController>();
                 foreach (LocationGoal currLocationGoal in currPlayer.locationGoalList)
                 {
                     if (currFurniture.thisFurnitureType == currLocationGoal.furnitureType && currFurniture.isInLocation(currLocationGoal.location))
@@ -138,7 +148,47 @@ public class GameController : MonoBehaviour
                     Debug.Log("Player " + currPlayer.ToString() + " has goal " + currLocationGoal);
                 }
                 Debug.Log("Player " + currPlayer.ToString() + " has " + currPlayer.locationGoalScore + " location points.");
+
             }
+        }
+    }
+
+    public void updatePlayerStyleGoalScores()
+    {
+        GameObject[] furnitureObjects = GameObject.FindGameObjectsWithTag("Furniture");
+        foreach (PlayerController currPlayer in playerList)
+        {
+            currPlayer.styleGoalScore = 0;
+            foreach (GameObject furniture in furnitureObjects)
+            {
+                FurnitureController currFurniture = furniture.GetComponent<FurnitureController>();
+                if (currFurniture.thisStyleType == currPlayer.styleGoal && currFurniture.isInHouse())
+                {
+                    currPlayer.styleGoalScore += numPointsPerStyleGoal;
+                }
+                Debug.Log("Player " + currPlayer.ToString() + " has " + currPlayer.styleGoalScore + " style points AND THEIR STYLE IS " + currPlayer.styleGoal + ".");
+
+            }
+        }
+    }
+
+    Color getPlayerColor(int playerNum)
+    {
+        if (playerNum == 1)
+        {
+            return Color.red;
+        }
+        else if (playerNum == 2)
+        {
+            return Color.blue;
+        }
+        else if (playerNum == 3)
+        {
+            return Color.yellow;
+        }
+        else
+        {
+            return Color.green;
         }
     }
 }

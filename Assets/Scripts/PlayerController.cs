@@ -21,6 +21,12 @@ public class PlayerController : MonoBehaviour
     public int numLocationGoals = 2;
     public int locationGoalScore = 0;
 
+    public FurnitureController.StyleEnum styleGoal;
+    public int styleGoalScore = 0;
+
+    public int playerNumber;
+    public Color playerColor;
+
     Animator m_Animator;
 
     // Start is called before the first frame update
@@ -47,61 +53,79 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Reset triggers so player doesn't randomly start walking
-        m_Animator.ResetTrigger("PlayerWalkingLeft");
-        m_Animator.ResetTrigger("PlayerWalkingRight");
-        m_Animator.ResetTrigger("PlayerWalkingUp");
-        m_Animator.ResetTrigger("PlayerWalkingDown");
+        if (this.playerNumber != 0)
+        {
+            // Reset triggers so player doesn't randomly start walking
+            m_Animator.ResetTrigger("PlayerWalkingLeft");
+            m_Animator.ResetTrigger("PlayerWalkingRight");
+            m_Animator.ResetTrigger("PlayerWalkingUp");
+            m_Animator.ResetTrigger("PlayerWalkingDown");
 
-        horizontalMove = Input.GetAxisRaw("Horizontal");
-        verticalMove = Input.GetAxisRaw("Vertical");
+            horizontalMove = Mathf.Round(Input.GetAxisRaw("Player" + playerNumber + "Horizontal"));
+            verticalMove = Mathf.Round(Input.GetAxisRaw("Player" + playerNumber + "Vertical"));
 
-        if (horizontalMove < 0)
-        {
-            currentFacing = Facing.LEFT;
-            m_Animator.SetTrigger("PlayerWalkingLeft");
-        } else if(horizontalMove > 0)
-        {
-            currentFacing = Facing.RIGHT;
-            m_Animator.SetTrigger("PlayerWalkingRight");
-        } else if(verticalMove > 0)
-        {
-            currentFacing = Facing.UP;
-            m_Animator.SetTrigger("PlayerWalkingUp");
-        } else if (verticalMove < 0)
-        {
-            currentFacing = Facing.DOWN;
-            m_Animator.SetTrigger("PlayerWalkingDown");
-        }
-
-        if (isCarrying)
-        {
-            Vector3 facingOffset = getPickupOffset(transform.localPosition);
-            m_carryObject.transform.position = facingOffset;
-        }
-
-        // If "pickup" is pressed, check facing direction
-        // TODO: Change names of input buttons, for now Jump because jump == space
-        if (Input.GetButtonDown("Jump"))
-        {
-
-            if (! isCarrying ) {
-                Vector3 pickupOffset = getPickupOffset(transform.localPosition);
-                GameObject toPickupFurniture = getFacingFurniture(pickupOffset);
-                if (toPickupFurniture != null)
-                {
-                    pickupFurniture(toPickupFurniture);
-                }
-            } else
+            if (horizontalMove < 0)
             {
-                dropFurniture();
+                currentFacing = Facing.LEFT;
+                m_Animator.SetTrigger("PlayerWalkingLeft");
             }
-        } else if (Input.GetButtonDown("Fire1") && isCarrying) //TODO: Change buttons etc. right now it's left-ctrl
-        {
-            GameObject furniture = m_carryObject;
-            dropFurniture();
-            throwFurniture(furniture, getForceVector());
+            else if (horizontalMove > 0)
+            {
+                currentFacing = Facing.RIGHT;
+                m_Animator.SetTrigger("PlayerWalkingRight");
+            }
+            else if (verticalMove > 0)
+            {
+                currentFacing = Facing.UP;
+                m_Animator.SetTrigger("PlayerWalkingUp");
+            }
+            else if (verticalMove < 0)
+            {
+                currentFacing = Facing.DOWN;
+                m_Animator.SetTrigger("PlayerWalkingDown");
+            }
+
+            if (isCarrying)
+            {
+                Vector3 facingOffset = getPickupOffset(transform.localPosition);
+                m_carryObject.transform.position = facingOffset;
+            }
+
+            // If "pickup" is pressed, check facing direction
+            if (Input.GetButtonDown("Player" + playerNumber + "Pickup"))
+            {
+
+                if (!isCarrying)
+                {
+                    Vector3 pickupOffset = getPickupOffset(transform.localPosition);
+                    GameObject toPickupFurniture = getFacingFurniture(pickupOffset);
+                    if (toPickupFurniture != null)
+                    {
+                        pickupFurniture(toPickupFurniture);
+                    }
+                }
+                else
+                {
+                    dropFurniture();
+                }
+            }
+            else if (Input.GetButtonDown("Player" + playerNumber + "Throw") && isCarrying)
+            {
+                GameObject furniture = m_carryObject;
+                dropFurniture();
+                throwFurniture(furniture, getForceVector());
+            }
         }
+    }
+
+    public void setPlayerNumber(int num)
+    {
+        playerNumber = num;
+    }
+
+    public void setColor(Color color)
+    {
+        this.playerColor = color;
     }
 
     void FixedUpdate()
