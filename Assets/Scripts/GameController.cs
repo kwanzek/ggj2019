@@ -21,6 +21,11 @@ public class GameController : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject playerIcon;
 
+    public GameObject player1Spawn;
+    public GameObject player2Spawn;
+    public GameObject player3Spawn;
+    public GameObject player4Spawn;
+
     public PlayerController[] playerList;
 
     private int numPointsPerLocationGoal = 7;
@@ -37,7 +42,8 @@ public class GameController : MonoBehaviour
 
         for (int i = 1; i < PlayerPrefs.GetInt("NumPlayers") + 1; i++)
         {
-            GameObject playerObj = Instantiate(playerPrefab, new Vector3(i * 2, 1, 0), Quaternion.identity);
+            Transform spawnLoc = getSpawnLocForPlayerNum(i);
+            GameObject playerObj = Instantiate(playerPrefab, spawnLoc.position, Quaternion.identity);
             GameObject playerIconObj = Instantiate(playerIcon, new Vector3((float)-13.25, 7 - 3 * (i - 1), 0), Quaternion.identity);
             PlayerController playerController = playerObj.GetComponent<PlayerController>();
             playerController.setPlayerNumber(i);
@@ -76,6 +82,23 @@ public class GameController : MonoBehaviour
                     currFurniture.locationBoolArray[(int)currLocation.thisLocation] = false;
                 }
             }
+        }
+    }
+
+    Transform getSpawnLocForPlayerNum(int playerNum)
+    {
+        if (playerNum == 1)
+        {
+            return player1Spawn.transform;
+        } else if(playerNum == 2)
+        {
+            return player2Spawn.transform;
+        } else if(playerNum == 3)
+        {
+            return player3Spawn.transform;
+        } else
+        {
+            return player4Spawn.transform;
         }
     }
 
