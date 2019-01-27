@@ -29,4 +29,9 @@ public class Timer : MonoBehaviour
             timeLeft--;
         }
     }
+
+    public int getTimerTime()
+    {
+        return timeLeft;
+    }
 }
