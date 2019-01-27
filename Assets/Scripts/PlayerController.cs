@@ -53,8 +53,8 @@ public class PlayerController : MonoBehaviour
         m_Animator.ResetTrigger("PlayerWalkingUp");
         m_Animator.ResetTrigger("PlayerWalkingDown");
 
-        horizontalMove = Input.GetAxisRaw("Horizontal");
-        verticalMove = Input.GetAxisRaw("Vertical");
+        horizontalMove = Mathf.Round(Input.GetAxisRaw("Horizontal"));
+        verticalMove = Mathf.Round(Input.GetAxisRaw("Vertical"));
 
         if (horizontalMove < 0)
         {
@@ -81,8 +81,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // If "pickup" is pressed, check facing direction
-        // TODO: Change names of input buttons, for now Jump because jump == space
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Player1Pickup"))
         {
 
             if (! isCarrying ) {
@@ -96,7 +95,7 @@ public class PlayerController : MonoBehaviour
             {
                 dropFurniture();
             }
-        } else if (Input.GetButtonDown("Fire1") && isCarrying) //TODO: Change buttons etc. right now it's left-ctrl
+        } else if (Input.GetButtonDown("Player1Throw") && isCarrying)
         {
             GameObject furniture = m_carryObject;
             dropFurniture();

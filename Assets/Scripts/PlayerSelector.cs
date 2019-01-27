@@ -27,7 +27,7 @@ public class PlayerSelector : MonoBehaviour
 
         transform.Translate(new Vector3(horizontalMove * speed * Time.fixedDeltaTime, verticalMove * speed * Time.fixedDeltaTime, 0));
 
-        if (Input.GetButtonDown("Jump")) {
+        if (Input.GetButtonDown("Player1Pickup")) {
             GameObject[] playerCards = GameObject.FindGameObjectsWithTag("PlayerCard");
             foreach(GameObject card in playerCards)
             {

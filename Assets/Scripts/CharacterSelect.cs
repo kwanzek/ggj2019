@@ -16,9 +16,13 @@ public class CharacterSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Player1 hori : " + Input.GetAxisRaw("Horizontal"));
+        Debug.Log("Player 2 hori: " + Input.GetAxisRaw("Player2Horizontal"));
+        Debug.Log("Player1 vert : " + Input.GetAxisRaw("Vertical"));
+        Debug.Log("Player 2 vert: " + Input.GetAxisRaw("Player2Vertical"));
         for (int i = 1; i < 2; i++)
         {
-            bool joinButtonPressed = Input.GetButtonDown("Jump");
+            bool joinButtonPressed = Input.GetButtonDown("Player1Pickup");
             if (joinButtonPressed && !created[i-1])
             {
                 GameObject playerPicker = Instantiate(playerPickerObject, transform);
@@ -29,7 +33,7 @@ public class CharacterSelect : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Player1Throw"))
         {
             int countTrues = 0;
             foreach (bool create in created)
