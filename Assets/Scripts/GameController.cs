@@ -37,6 +37,8 @@ public class GameController : MonoBehaviour
         {
             Debug.Log(currPlayer);
         }
+
+        Debug.Log("Passed through for player 1 : " + PlayerPrefs.GetString("Player1_Character"));
     }
 
     // Update is called once per frame
