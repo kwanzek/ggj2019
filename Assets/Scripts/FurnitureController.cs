@@ -46,17 +46,31 @@ public class FurnitureController : MonoBehaviour
         currentSpeed = maxSpeed;
         velocity = newVelocity;
         playerThrowing = player;
+        BoxCollider2D collider = this.gameObject.GetComponent<BoxCollider2D>();
+        Debug.Log("Velocity: " + velocity);
+        if (velocity.x != 0)
+        {
+            collider.size = new Vector3(1, 0.4f, 0);
+        } else if (velocity.y != 0)
+        {
+            collider.size = new Vector3(0.4f, 1, 0);
+        }
+
+        Debug.Log("Setting collider size: " + collider.size);
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
+        BoxCollider2D collider = this.gameObject.GetComponent<BoxCollider2D>();
         if (collision.gameObject.tag != "Player") {
             currentSpeed = 0;
+            collider.size = new Vector3(1, 1, 0);
         } else if (playerThrowing != null)
         {
             if (playerThrowing.GetInstanceID() != collision.gameObject.GetInstanceID())
             {
                 currentSpeed = 0;
+                collider.size = new Vector3(1, 1, 0);
                 playerThrowing = null;
             }
         }
