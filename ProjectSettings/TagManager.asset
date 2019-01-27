@@ -9,6 +9,7 @@ TagManager:
   - Truck
   - TruckStop
   - TruckSpawn
+  - PlayerCard
   layers:
   - Default
   - TransparentFX

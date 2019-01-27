@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     public GameObject truckSpawn;
     public GameObject truckStop;
     public GameObject outsideHouse;
+    public GameObject playerPrefab;
 
     public PlayerController[] playerList;
 
@@ -33,11 +34,20 @@ public class GameController : MonoBehaviour
 
         spawnTruck();
 
+        for (int i = 1; i < PlayerPrefs.GetInt("NumPlayers") + 1; i++)
+        {
+            GameObject playerObj = Instantiate(playerPrefab, new Vector3(i * 2, 1, 0), Quaternion.identity);
+            PlayerController playerController = playerObj.GetComponent<PlayerController>();
+            playerController.setPlayerNumber(i);
+            playerController.setColor(getPlayerColor(i));
+        }
         playerList = GameObject.FindObjectsOfType<PlayerController>();
         foreach (PlayerController currPlayer in playerList)
         {
             Debug.Log(currPlayer);
         }
+
+        Debug.Log("Passed through for player 1 : " + PlayerPrefs.GetString("Player1_Character"));
     }
 
     // Update is called once per frame
@@ -157,6 +167,26 @@ public class GameController : MonoBehaviour
                 Debug.Log("Player " + currPlayer.ToString() + " has " + currPlayer.styleGoalScore + " style points AND THEIR STYLE IS " + currPlayer.styleGoal + ".");
 
             }
+        }
+    }
+
+    Color getPlayerColor(int playerNum)
+    {
+        if (playerNum == 1)
+        {
+            return Color.red;
+        }
+        else if (playerNum == 2)
+        {
+            return Color.blue;
+        }
+        else if (playerNum == 3)
+        {
+            return Color.yellow;
+        }
+        else
+        {
+            return Color.green;
         }
     }
 }
