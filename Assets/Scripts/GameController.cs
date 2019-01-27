@@ -37,8 +37,10 @@ public class GameController : MonoBehaviour
         {
             Debug.Log(currPlayer);
         }
-
         Debug.Log("Passed through for player 1 : " + PlayerPrefs.GetString("Player1_Character"));
+        
+        int numSprites = GameObject.FindObjectsOfType<PlayerController>().Length;
+        Debug.LogWarning(numSprites);
     }
 
     // Update is called once per frame
@@ -127,7 +129,7 @@ public class GameController : MonoBehaviour
             foreach (PlayerController currPlayer in playerList)
             {
                 currPlayer.locationGoalScore = 0;
-                foreach (LocationGoals currLocationGoal in currPlayer.locationGoalList)
+                foreach (LocationGoal currLocationGoal in currPlayer.locationGoalList)
                 {
                     if (currFurniture.thisFurnitureType == currLocationGoal.furnitureType && currFurniture.isInLocation(currLocationGoal.location))
                     {

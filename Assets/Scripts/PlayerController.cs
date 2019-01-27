@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     private bool isCarrying;
     private Facing currentFacing;
 
-    public List<LocationGoals> locationGoalList;
+    public List<LocationGoal> locationGoalList;
     public int numLocationGoals = 2;
     public int locationGoalScore = 0;
 
@@ -30,13 +30,13 @@ public class PlayerController : MonoBehaviour
         isCarrying = false;
         currentFacing = Facing.DOWN;
 
-        locationGoalList = new List<LocationGoals>();
+        locationGoalList = new List<LocationGoal>();
         for (int i = 0; i < numLocationGoals; i++)
         {
-            LocationGoals currGoal = new LocationGoals();
+            LocationGoal currGoal = new LocationGoal();
             while (locationGoalList.Contains(currGoal))
             {
-                currGoal = new LocationGoals();
+                currGoal = new LocationGoal();
             }
             locationGoalList.Add(currGoal);
         }
