@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class TruckController : MonoBehaviour
 {
@@ -10,9 +11,15 @@ public class TruckController : MonoBehaviour
     private bool alreadyStopped;
     private bool alreadyDroppedOff;
 
+    public int maxSpawnObjects;
+    public int minSpawnObjects;
+    public int maxSpawnObjectsPerType;
+    public int maxSpawnObjectsPerStyle;
+
     public GameObject truckStop;
     public GameObject outsideHouse;
     public GameObject tempFurniture;
+    public GameObject dropOffStart;
 
     public GameObject refrigerator;
     public GameObject diningTable;
@@ -73,10 +80,107 @@ public class TruckController : MonoBehaviour
         }
     }
 
+    public void setUpDropOffSpot(GameObject spot)
+    {
+        dropOffStart = spot;
+    }
+
+    private ArrayList setupSpawnLocs(Vector3 basePos)
+    {
+        ArrayList list = new ArrayList();
+        for (int i = -2; i < 6; i+=2)
+        {
+            for (int j = -4; j < 4; j+=2)
+            {
+                list.Add(new Vector3(basePos.x + i, basePos.y + j, 0));
+            }
+        }
+        return list;
+    }
+
     private void spawnNewFurniture()
     {
-        Instantiate(tempFurniture, truckStop.transform.position, Quaternion.identity);
+        int itemCountToDrop = Random.Range(minSpawnObjects, maxSpawnObjects + 1);
+        Transform itemDropBase = dropOffStart.transform;
+
+
+        Vector3 itemDropPos = itemDropBase.position;
+        ArrayList spawnLocs = setupSpawnLocs(itemDropPos);
+
+
+        var enumTypes = System.Enum.GetValues(typeof(FurnitureController.FurnitureTypeEnum));
+        var enumStyles = System.Enum.GetValues(typeof(FurnitureController.StyleEnum));
+        Dictionary<FurnitureController.FurnitureTypeEnum, int> itemTypeDropOffs = new Dictionary<FurnitureController.FurnitureTypeEnum, int>();
+        foreach(FurnitureController.FurnitureTypeEnum type in enumTypes)
+        {
+            itemTypeDropOffs.Add(type, 0);
+        }
+        Dictionary<FurnitureController.StyleEnum, int> itemStyleDropOffs = new Dictionary<FurnitureController.StyleEnum, int>();
+        foreach (FurnitureController.StyleEnum style in enumStyles)
+        {
+            itemStyleDropOffs.Add(style, 0);
+        }
+
+        while (itemCountToDrop > 0)
+        {
+            int randomType = Random.Range(0, enumTypes.Length);
+            int randomStyle = Random.Range(0, enumStyles.Length);
+            FurnitureController.FurnitureTypeEnum chosenType = (FurnitureController.FurnitureTypeEnum)randomType;
+            FurnitureController.StyleEnum chosenStyle = (FurnitureController.StyleEnum)randomStyle;
+
+            int existingTypeCount = itemTypeDropOffs[chosenType];
+            int existingStyleCount = itemStyleDropOffs[chosenStyle];
+
+            if (existingTypeCount < maxSpawnObjectsPerType && existingStyleCount < maxSpawnObjectsPerStyle)
+            {
+                itemTypeDropOffs[chosenType] = existingTypeCount + 1;
+                itemStyleDropOffs[chosenStyle] = existingStyleCount + 1;
+                int spawnLocIndex = Random.Range(0, spawnLocs.Count);
+                Vector3 spawnLoc = (Vector3) spawnLocs[spawnLocIndex];
+                spawnLocs.RemoveAt(spawnLocIndex);
+                spawnObject(chosenType, chosenStyle, spawnLoc);
+                itemCountToDrop--;
+            }
+        }
+
+
         alreadyDroppedOff = true;
+    }
+
+    private void spawnObject(FurnitureController.FurnitureTypeEnum type, FurnitureController.StyleEnum style, Vector3 loc)
+    {
+        GameObject spawnObj = Instantiate(furniturePrefabFromType(type), loc, Quaternion.identity);
+        FurnitureController controller = spawnObj.GetComponent<FurnitureController>();
+        controller.setupFurniture(type, style);
+    }
+
+    private GameObject furniturePrefabFromType(FurnitureController.FurnitureTypeEnum type)
+    {
+        if (type == FurnitureController.FurnitureTypeEnum.Bathtub)
+        {
+            return bathtub;
+        } else if(type == FurnitureController.FurnitureTypeEnum.Bed)
+        {
+            return bed;
+        } else if(type == FurnitureController.FurnitureTypeEnum.Desk)
+        {
+            return desk;
+        } else if(type == FurnitureController.FurnitureTypeEnum.DiningTable)
+        {
+            return diningTable;
+        } else if (type == FurnitureController.FurnitureTypeEnum.Dresser)
+        {
+            return dresser;
+        } else if (type == FurnitureController.FurnitureTypeEnum.Refrigerator)
+        {
+            return refrigerator;
+        } else if (type == FurnitureController.FurnitureTypeEnum.Sofa)
+        {
+            return sofa;
+        } else
+        {
+            return tv;
+        }
     }
 
     private bool collidedWithStop()

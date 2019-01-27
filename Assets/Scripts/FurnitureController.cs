@@ -21,6 +21,11 @@ public class FurnitureController : MonoBehaviour
 
     public int pointValue;
 
+    private Color fancyColor = new Color(118/255f, 190 / 255f, 21 / 255f);
+    private Color cuteColor = new Color(202/255f, 236 / 255f, 118 / 255f);
+    private Color coolColor = new Color(250 / 255f, 203 / 255f, 114 / 255f);
+    private Color gothColor = new Color(99 / 255f, 57 / 255f, 132 / 255f);
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +43,27 @@ public class FurnitureController : MonoBehaviour
             currentSpeed -= friction * Time.fixedDeltaTime;
             Vector3 forceVector = velocity.normalized * currentSpeed * Time.fixedDeltaTime;
             transform.Translate(forceVector);
+        }
+    }
+
+    public void setupFurniture(FurnitureTypeEnum type, StyleEnum style)
+    {
+        thisFurnitureType = type;
+        thisStyleType = style;
+        SpriteRenderer renderer = this.gameObject.GetComponent<SpriteRenderer>();
+
+        if (style == StyleEnum.Cool)
+        {
+            renderer.color = coolColor;
+        } else if(style == StyleEnum.Cute)
+        {
+            renderer.color = cuteColor;
+        } else if(style == StyleEnum.Fancy)
+        {
+            renderer.color = fancyColor;
+        } else if (style == StyleEnum.Goth)
+        {
+            renderer.color = gothColor;
         }
     }
 
