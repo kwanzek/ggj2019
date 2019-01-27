@@ -90,9 +90,9 @@ public class TruckController : MonoBehaviour
         ArrayList list = new ArrayList();
         for (int i = -2; i < 7; i+=3)
         {
-            for (int j = -4; j < 4; j+=2)
+            for (int j = -5; j < 3; j+=2)
             {
-                list.Add(new Vector3(basePos.x + i + 0.01f, basePos.y + j + 0.01f, 0));
+                list.Add(new Vector3(basePos.x + i + 0.5f, basePos.y + j + 0.5f, 0));
             }
         }
         return list;

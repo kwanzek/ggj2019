@@ -43,6 +43,11 @@ public class GameController : MonoBehaviour
     private float recalcTimer = 3f;
     private float recalcTimerReset = 3f;
 
+    public float spawnTimeLeft = 30f;
+    public float spawnTimer = 30f;
+
+    public Timer timerScript;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,7 +63,7 @@ public class GameController : MonoBehaviour
             var pref = PlayerPrefs.GetString("Player" + i + "_Character");
             GameObject prefab = getPlayerPrefabFromStringName(pref);
             GameObject playerObj = Instantiate(prefab, spawnLoc.position, Quaternion.identity);
-            GameObject playerIconObj = Instantiate(playerIcon, new Vector3((float)-14.07, 7 - 3 * (i - 1), 1), Quaternion.identity);
+            //GameObject playerIconObj = Instantiate(playerIcon, new Vector3((float)-14.07, 7 - 3 * (i - 1), 1), Quaternion.identity);
             PlayerController playerController = playerObj.GetComponent<PlayerController>();
             playerController.setPlayerNumber(i);
             playerController.setColor(getPlayerColor(i));
@@ -83,6 +88,18 @@ public class GameController : MonoBehaviour
             recalcTimer = recalcTimerReset;
         }
         recalcTimer -= Time.deltaTime;
+
+        if (spawnTimeLeft < 0f)
+        {
+            spawnTruck();
+            if (timerScript.getTimerTime() > 0)
+            {
+                spawnTimeLeft = spawnTimer;
+            }
+        } else
+        {
+            spawnTimeLeft -= Time.deltaTime;
+        }
 
     }
 
