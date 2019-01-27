@@ -47,6 +47,12 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Reset triggers so player doesn't randomly start walking
+        m_Animator.ResetTrigger("PlayerWalkingLeft");
+        m_Animator.ResetTrigger("PlayerWalkingRight");
+        m_Animator.ResetTrigger("PlayerWalkingUp");
+        m_Animator.ResetTrigger("PlayerWalkingDown");
+
         horizontalMove = Input.GetAxisRaw("Horizontal");
         verticalMove = Input.GetAxisRaw("Vertical");
 
