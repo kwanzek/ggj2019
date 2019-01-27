@@ -16,6 +16,10 @@ public class CharacterSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown("escape"))
+        {
+            Application.Quit();
+        }
         for (int i = 1; i < 5; i++)
         {
             bool joinButtonPressed = Input.GetButtonDown("Player" + i + "Pickup");
