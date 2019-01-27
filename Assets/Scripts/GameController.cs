@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
     public PlayerController[] playerList;
 
     private int numPointsPerLocationGoal = 7;
+    private int numPointsPerStyleGoal = 2;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +55,7 @@ public class GameController : MonoBehaviour
     {
         checkAllFurnitureLocationOverlap();
         updatePlayerLocationGoalScores();
+        updatePlayerStyleGoalScores();
     }
 
     // For each furniture, check if it overlapping a specific location.
@@ -129,12 +131,12 @@ public class GameController : MonoBehaviour
     public void updatePlayerLocationGoalScores()
     {
         GameObject[] furnitureObjects = GameObject.FindGameObjectsWithTag("Furniture");
-        foreach (GameObject furniture in furnitureObjects)
+        foreach (PlayerController currPlayer in playerList)
         {
-            FurnitureController currFurniture = furniture.GetComponent<FurnitureController>();
-            foreach (PlayerController currPlayer in playerList)
+            currPlayer.locationGoalScore = 0;
+            foreach (GameObject furniture in furnitureObjects)
             {
-                currPlayer.locationGoalScore = 0;
+                FurnitureController currFurniture = furniture.GetComponent<FurnitureController>();
                 foreach (LocationGoals currLocationGoal in currPlayer.locationGoalList)
                 {
                     if (currFurniture.thisFurnitureType == currLocationGoal.furnitureType && currFurniture.isInLocation(currLocationGoal.location))
@@ -144,6 +146,26 @@ public class GameController : MonoBehaviour
                     Debug.Log("Player " + currPlayer.ToString() + " has goal " + currLocationGoal);
                 }
                 Debug.Log("Player " + currPlayer.ToString() + " has " + currPlayer.locationGoalScore + " location points.");
+
+            }
+        }
+    }
+
+    public void updatePlayerStyleGoalScores()
+    {
+        GameObject[] furnitureObjects = GameObject.FindGameObjectsWithTag("Furniture");
+        foreach (PlayerController currPlayer in playerList)
+        {
+            currPlayer.styleGoalScore = 0;
+            foreach (GameObject furniture in furnitureObjects)
+            {
+                FurnitureController currFurniture = furniture.GetComponent<FurnitureController>();
+                if (currFurniture.thisStyleType == currPlayer.styleGoal && currFurniture.isInHouse())
+                {
+                    currPlayer.styleGoalScore += numPointsPerStyleGoal;
+                }
+                Debug.Log("Player " + currPlayer.ToString() + " has " + currPlayer.styleGoalScore + " style points AND THEIR STYLE IS " + currPlayer.styleGoal + ".");
+
             }
         }
     }

@@ -13,7 +13,7 @@ public class FurnitureController : MonoBehaviour
 
     public enum FurnitureTypeEnum { Refrigerator, DiningTable, Sofa, TV, Bed, Desk, Dresser, Bathtub }
 
-    public enum StyleEnum { Cute, Goth, IDK1, IDK2 }
+    public enum StyleEnum { Cute, Goth, Fancy, Cool }
 
     public FurnitureTypeEnum thisFurnitureType;
     public StyleEnum thisStyleType;
