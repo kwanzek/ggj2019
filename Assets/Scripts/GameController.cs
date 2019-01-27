@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameController : MonoBehaviour
     public int minGoalItems;
     public int maxPerItemType;
     private Dictionary<FurnitureController.FurnitureTypeEnum, int> globalItemGoals;
+    private Dictionary<FurnitureController.FurnitureTypeEnum, int> globalGoalScores;
 
     public GameObject truck;
     public GameObject truckSpawn;
@@ -49,7 +51,7 @@ public class GameController : MonoBehaviour
         {
             Transform spawnLoc = getSpawnLocForPlayerNum(i);
             GameObject playerObj = Instantiate(playerPrefab, spawnLoc.position, Quaternion.identity);
-            GameObject playerIconObj = Instantiate(playerIcon, new Vector3((float)-13.25, 7 - 3 * (i - 1), 0), Quaternion.identity);
+            GameObject playerIconObj = Instantiate(playerIcon, new Vector3((float)-14.7, 7 - 3 * (i - 1), 1), Quaternion.identity);
             PlayerController playerController = playerObj.GetComponent<PlayerController>();
             playerController.setPlayerNumber(i);
             playerController.setColor(getPlayerColor(i));
@@ -74,6 +76,7 @@ public class GameController : MonoBehaviour
         }
         recalcTimer -= Time.deltaTime;
         updatePlayerStyleGoalScores();
+        updateGlobalGoalScores();
     }
 
     // For each furniture, check if it overlapping a specific location.
@@ -152,6 +155,7 @@ public class GameController : MonoBehaviour
                 Debug.Log("Key: " + type + "value: 0");
             }
         }
+
     }
 
     void spawnTruck()
@@ -202,6 +206,31 @@ public class GameController : MonoBehaviour
                 }
                // Debug.Log("Player " + currPlayer.ToString() + " has " + currPlayer.styleGoalScore + " style points AND THEIR STYLE IS " + currPlayer.styleGoal + ".");
 
+            }
+        }
+    }
+
+    public void updateGlobalGoalScores()
+    {
+        globalGoalScores = new Dictionary<FurnitureController.FurnitureTypeEnum, int>();
+
+        GameObject[] furnitureObjects = GameObject.FindGameObjectsWithTag("Furniture");
+        foreach (GameObject furniture in furnitureObjects)
+        {
+            FurnitureController currFurniture = furniture.GetComponent<FurnitureController>();
+            if (currFurniture.isInHouse())
+            {
+                FurnitureController.FurnitureTypeEnum currType = currFurniture.thisFurnitureType;
+                if (globalItemGoals.ContainsKey(currType)) {
+                    if (globalGoalScores.ContainsKey(currType))
+                    {
+                        globalGoalScores[currType]++;
+                    }
+                    else
+                    {
+                        globalGoalScores.Add(currType, 1);
+                    }
+                }
             }
         }
     }
