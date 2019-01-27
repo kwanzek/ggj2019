@@ -27,7 +27,7 @@ public class PlayerSelector : MonoBehaviour
 
         transform.Translate(new Vector3(horizontalMove * speed * Time.fixedDeltaTime, verticalMove * speed * Time.fixedDeltaTime, 0));
 
-        if (Input.GetButtonDown("Player" + playerNumber + "Pickup")) {
+        if (Input.GetButtonDown("Player" + playerNumber + "Pickup") && chosenCharacter == null) {
             GameObject[] playerCards = GameObject.FindGameObjectsWithTag("PlayerCard");
             foreach(GameObject card in playerCards)
             {
@@ -36,7 +36,6 @@ public class PlayerSelector : MonoBehaviour
                 if (playerCollider.IsTouching(cardCollider))
                 {
                     CharacterIdentity charIdentity = card.GetComponent<CharacterIdentity>();
-                    SpriteRenderer childDisplay = card.GetComponentInChildren<SpriteRenderer>();
 
                     if (charIdentity.available)
                     {
@@ -44,11 +43,20 @@ public class PlayerSelector : MonoBehaviour
                         charIdentity.enablePlayerDisplay(playerColor);
 
                         chosenCharacter = card;
-                        Debug.Log("My character is : " + charIdentity.thisCharacter);
                     }
                 }
             }
+        } else if (Input.GetButton("Player" + playerNumber + "Back") && chosenCharacter != null)
+        {
+            unpickCharacter();
         }
+    }
+
+    void unpickCharacter()
+    {
+        CharacterIdentity charIdentity = chosenCharacter.GetComponent<CharacterIdentity>();
+        charIdentity.unpickCharacter();
+        chosenCharacter = null;
     }
 
     public void setPlayerNumber(int num)
